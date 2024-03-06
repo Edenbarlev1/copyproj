@@ -122,6 +122,11 @@ public class Canvas extends Component{
         getElement().executeJs("this.context.beginPath()");
     }
 
+    public void closePath() {
+        getElement().executeJs("this.context.closePath()");
+    }
+
+
     public void moveTo(double x, double y) {
         getElement().executeJs("this.context.moveTo($0, $1)", x, y);
     }
@@ -129,8 +134,8 @@ public class Canvas extends Component{
     public void lineTo(double x, double y) {
         getElement().executeJs("this.context.lineTo($0, $1)", x, y);
     }
-
+   // מצייר את הקו על ה-Canvas.
     public void stroke() {
         getElement().executeJs("this.context.stroke()");
-    }
+    }    
 }

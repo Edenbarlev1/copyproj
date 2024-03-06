@@ -1,12 +1,13 @@
 package edenb.copyproj;
 
+// import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 //import com.vaadin.flow.component.template.Id;
 
 @Document(collection="points")
 public class Point 
-{
+{  
     private double x;
     private double y;
     private String un;
@@ -56,7 +57,6 @@ public class Point
     public void setY(double y) {
         this.y = y;
     }
-
 
     @Override
     public String toString() {

@@ -1,5 +1,6 @@
 package edenb.copyproj;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 public class PointService {
 
     private PointRepo pointRepo;
+    private DrawRepo drawRepo;
     private ArrayList<CanvasChangeListener> listeners;
     private ArrayList<Point> pointsList;
 
@@ -15,21 +17,17 @@ public class PointService {
         void onChange();
     }
 
-    public PointService(PointRepo pointRepo) {
+    public PointService(PointRepo pointRepo,DrawRepo drawRepo) {
         this.pointRepo = pointRepo;
+        this.drawRepo = drawRepo;
         listeners = new ArrayList<CanvasChangeListener>();
         pointsList = new ArrayList<>();
     }
     
-   public void startDraw(Point point) {
-        pointsList = new ArrayList<>();
-        pointsList.add(point);
-   }
-
-   public void endDraw(Point point) {
-        pointsList.add(point);
+   public void endDraw() {
         System.out.println(pointsList);
         pointRepo.insert(pointsList);
+        pointsList.clear();
    }
 
     public void addPoint(Point point) {
@@ -43,10 +41,12 @@ public class PointService {
     public void addCanvasChangeListener(CanvasChangeListener listener) {
         synchronized (listeners) {
             listeners.add(listener);
+            
         }
     }
 
     public void clearPoints() {
+        pointsList.clear();
         pointRepo.deleteAll();
     }
 
@@ -58,4 +58,12 @@ public class PointService {
             return pointsList;
         }
     }
+    
+public void saveDrawing(String drawName, LocalDate dateOfDraw) {
+    List<Point> allPoints = pointRepo.findAll(); 
+    Draw draw = new Draw(allPoints, drawName, dateOfDraw);
+    drawRepo.insert(draw);
+    System.out.println(draw);
+}
+   
 }

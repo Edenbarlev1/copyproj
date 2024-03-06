@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PointRepo extends MongoRepository<Point, ObjectId>
+public interface GroupRepo extends MongoRepository<Point, ObjectId>
 {
-     
+    
 }
