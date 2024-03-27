@@ -122,9 +122,9 @@ public class Canvas extends Component{
         getElement().executeJs("this.context.beginPath()");
     }
 
-    public void closePath() {
-        getElement().executeJs("this.context.closePath()");
-    }
+    // public void closePath() {
+    //     getElement().executeJs("this.context.closePath()");
+    // }
 
 
     public void moveTo(double x, double y) {

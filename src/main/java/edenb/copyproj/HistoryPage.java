@@ -9,7 +9,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import java.util.List;
 
-@Route("history")
+@Route(value = "/history", layout = AppMainLayout.class)
 @PageTitle("History")
 public class HistoryPage extends VerticalLayout {
 
@@ -20,6 +20,8 @@ public class HistoryPage extends VerticalLayout {
     public HistoryPage(DrawService drawService) {
         this.drawService = drawService;
         
+        H1 h1 = new H1("welcome to history page");
+        add(h1);
         //קבלת כל הנקודות של הציור
         List<Draw> savedDrawings = drawService.getAllDraws();
         Button btn = new Button("Delete", event -> {
@@ -30,7 +32,7 @@ public class HistoryPage extends VerticalLayout {
         for (Draw savedDrawing : savedDrawings) {
             // יצירת  קנבס עבור כל רישום שנשמר
             Canvas canvas = createCanvas(savedDrawing);
-            add(new H1(savedDrawing.getNameofdraw()+ savedDrawing.getdateOfDraw()));
+            add(new H2("Draw name:"+savedDrawing.getNameofdraw() + "\n Date:" + savedDrawing.getdateOfDraw()));
             add(canvas, btn);
         }
     }

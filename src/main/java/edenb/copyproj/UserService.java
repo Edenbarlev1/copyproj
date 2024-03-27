@@ -2,9 +2,7 @@ package edenb.copyproj;
 
 import java.util.ArrayList;
 import java.util.List;
-//import javax.swing.AbstractButton.ButtonChangeListener;
 import org.springframework.stereotype.Service;
-import edenb.copyproj.PointService.CanvasChangeListener;
 
 @Service
 public class UserService {
@@ -29,14 +27,11 @@ public class UserService {
       return userRepo.findAll();
    }
 
-   public boolean isUserExists(String un, String pw) {
+   public boolean isUserExists(String un) {
       User user = userRepo.findByUsername(un);
-      if (user != null && user.getPassword().equals(pw)) {
-         return true;
-      }
-      return false;
-   }
-
+      return user != null;
+  }
+   
    public void addbuttonChangeListener(ButtonChangeListener listener)
    {
       synchronized (listeners)
@@ -51,6 +46,13 @@ public class UserService {
             }
         }
     }
+
+   
+    public User getUserByID(String username) {
+
+      return userRepo.findByUsername(username);
+   }
+
 
 }
 

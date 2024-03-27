@@ -7,5 +7,5 @@ package edenb.copyproj;
  @Repository
  public interface DrawRepo extends MongoRepository<Draw, ObjectId>
  {
-
+   
  }

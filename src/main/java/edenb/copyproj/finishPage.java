@@ -2,6 +2,7 @@ package edenb.copyproj;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -9,10 +10,11 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.VaadinSession;
 
-@Route("/finishPage")
+@Route(value = "/finishPage", layout = AppMainLayout.class)
 @PageTitle("Finish Page")
 public class finishPage extends VerticalLayout {
 
+    H1 heder = new H1("finish page");
     H2 h2 = new H2("The painting is finished and saved, thank you");
     Button btn1 = new Button("history", event -> {
             UI.getCurrent().getPage().setLocation("/history");
@@ -26,6 +28,7 @@ public class finishPage extends VerticalLayout {
         public finishPage(){
             
          HorizontalLayout buttonsLayout = new HorizontalLayout(btn1, btn2);
-        add(h2, buttonsLayout);
+         setAlignItems(Alignment.CENTER);
+        add(heder,h2, buttonsLayout);
 }
 }

@@ -1,55 +1,74 @@
  package edenb.copyproj;
 
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.login.LoginForm;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.VaadinSession;
 
-
-@Route("login")
-@PageTitle("Login Page")
+@PageTitle("LoginPage")
+@Route(value = "/login", layout = AppMainLayout2.class)
 public class LoginPage extends VerticalLayout {
 
-   private UserService userService;
-   private DrawService drawService;
+    private UserService userService;
 
-   public LoginPage(UserService userService, DrawService drawService) {
-      this.userService = userService;
-      this.drawService = drawService;   
+    public LoginPage(UserService userService) {
+        
+        this.userService = userService;
+        final String USER_SESSION_KEY ="username";
+        String loggedInUsername = (String) VaadinSession.getCurrent().getAttribute(USER_SESSION_KEY);
 
-        TextField username = new TextField("Username");
-        PasswordField password = new PasswordField("Password");
-      
-        Button loginButton = new Button("Login", event -> {
-         String usernameValue = username.getValue();
-         String passwordValue = password.getValue();
-         if (userService.isUserExists(usernameValue, passwordValue)) {
-             Notification.show("Login successful");
-             VaadinSession.getCurrent().getSession().setAttribute("username",usernameValue);
-             RouteTocanas();
-         } else {
-             Notification.show("User not found, redirecting to registration page");
-             RouteToRegister();
-         }
-     });
-        add(username, password, loginButton);
-        setAlignItems(Alignment.CENTER);
+        if (loggedInUsername != null) {
+           // System.out.println("-------- User NOT Authorized - can't use chat! --------" + loggedInUsername);
+            UI.getCurrent().getPage().setLocation("/MainPage"); // Redirect to login page (HomePage).
+            return; 
+                }
+        // Create login form
+        LoginForm loginForm = new LoginForm();
+        loginForm.setForgotPasswordButtonVisible(false); // Hide the "Forgot Password" link
+
+        // Set login form properties
+        loginForm.setForgotPasswordButtonVisible(false);
+
+        // Register a listener for the LoginEvent
+        loginForm.addLoginListener(e -> {
+            String username = e.getUsername();
+            String password = e.getPassword();
+
+            // Now you can compare the username and password with the database
+            User userExists = userService.getUserByID(username);
+            VaadinSession.getCurrent().getSession().setAttribute("username",username);
+            if (userExists != null && userExists.getPassword().equals(password)) {
+                Notification.show("Login Successful!");
+                UI.getCurrent().getSession().setAttribute("username", username);
+                UI.getCurrent().navigate("/MainPage");
+            } else if (userExists != null) {
+                Notification.show("Invalid username or password. Please try again.");
+                loginForm.setEnabled(true); // Disable login form after an unsuccessful attempt
+            } else {
+                Notification.show("Please register first.");
+                loginForm.setEnabled(true); // Disable login form after an unsuccessful attempt
+
+            }
+        });
+
+        
+
+        // Create a button to navigate to the register page
+        RouterLink registerLink = new RouterLink(" to Register", RegisterPage.class);
+
+        // Set alignment and background
+        setAlignItems(FlexComponent.Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        setWidth("100%");
+        setHeight("100vh");
+
+        // Add components to the layout
+        add(loginForm, registerLink);
     }
-    private void RouteTocanas()
-      {
-            UI.getCurrent().getPage().setLocation("/MainPage");
-      }
-      private void RouteToRegister()
-      {
-        UI.getCurrent().getPage().setLocation("/register");
-      }
-      
 }
-
-
 

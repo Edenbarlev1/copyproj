@@ -9,13 +9,14 @@ public class Draw {
         
     private LocalDate dateOfDraw;
     private List<Point> pointList;
-    private List<User> userList;
     private String nameOfDraw;
+    private List<ActiveGroup> userList;
 
-     public Draw(List<Point> pointList,String nameOfDraw,LocalDate dateOfDraw) {
+     public Draw(List<Point> pointList,String nameOfDraw,LocalDate dateOfDraw,List<ActiveGroup> userList) {
         this.nameOfDraw = nameOfDraw;
         this.pointList = pointList;
         this.dateOfDraw = dateOfDraw;
+        this.userList = userList;
     }
 
     public String getNameOfDraw() {
@@ -45,11 +46,12 @@ public class Draw {
         this.pointList = pointList;
     }
 
-    public List<User> getUserList() {
+     public List<ActiveGroup> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<User> userList) {
+    public void setUserList(List<ActiveGroup> userList) {
+        //this.userList = userList;
         this.userList = userList;
     }
 

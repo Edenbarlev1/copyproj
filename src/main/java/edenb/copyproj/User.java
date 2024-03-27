@@ -3,10 +3,12 @@ package edenb.copyproj;
 // import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.vaadin.flow.component.template.Id;
+
 
 @Document(collection="users1")
 public class User {
-   
+   @Id
     private String username;
     private String password;
 

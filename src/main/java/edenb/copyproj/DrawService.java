@@ -9,11 +9,12 @@ public class DrawService {
 
     private DrawRepo drawRepo;
     private ArrayList<Draw> drawsList;
-    private ArrayList<User> userList;
+   private ArrayList<String> userList;
+   
 
     public DrawService(DrawRepo drawRepo) {
         this.drawRepo = drawRepo;
-        userList = new ArrayList<>();
+        userList = new ArrayList<>();  
     }
     
     //קבלת כל הנקודות שנשמרו מהמאגר נתונים
@@ -26,10 +27,9 @@ public class DrawService {
   {
     drawRepo.deleteAll();
   }
-   
-  // public void ifisLogin(User user)
-  // {
-  //   userList = new ArrayList<>();
-  //   userList.add(user);
-  // }
+
+  public void addUserToDraw(String user)
+  {
+    userList.add(user);
+  }
 }
